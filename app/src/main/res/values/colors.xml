@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Dark palette (Firefox Android) -->
+    <color name="dark_bg">#1C1B22</color>
+    <color name="dark_bg2">#2B2A33</color>
+    <color name="dark_bg3">#38383D</color>
+    <color name="dark_surf">#2B2A33</color>
+    <color name="dark_bord">#38383D</color>
+    <color name="dark_urlbg">#38383D</color>
+    <color name="dark_txt">#FBFBFE</color>
+    <color name="dark_txt2">#CFCFD8</color>
+    <color name="dark_hint">#8F8F9D</color>
+    <color name="dark_acc">#C594FF</color>
+    <color name="dark_acc2">#E0B1FF</color>
+    <color name="dark_ico">#CFCFD8</color>
+    <color name="dark_div">#38383D</color>
+    <color name="dark_danger">#FF848B</color>
+    <!-- Light palette -->
+    <color name="light_bg">#FFFFFF</color>
+    <color name="light_bg2">#F0F0F4</color>
+    <color name="light_bg3">#E4E4ED</color>
+    <color name="light_surf">#FFFFFF</color>
+    <color name="light_bord">#E0E0E6</color>
+    <color name="light_urlbg">#F0F0F4</color>
+    <color name="light_txt">#1C1B22</color>
+    <color name="light_txt2">#5B5B66</color>
+    <color name="light_hint">#8F8F9D</color>
+    <color name="light_acc">#592ACB</color>
+    <color name="light_acc2">#7542E5</color>
+    <color name="light_ico">#5B5B66</color>
+    <color name="light_div">#E0E0E6</color>
+    <color name="light_danger">#D70022</color>
+    <!-- Tab group colors -->
+    <color name="grp_purple">#BB86FC</color>
+    <color name="grp_blue">#4A9EFF</color>
+    <color name="grp_green">#00C853</color>
+    <color name="grp_orange">#FF6D00</color>
+    <color name="grp_red">#F44336</color>
+    <color name="transparent">#00000000</color>
+</resources>

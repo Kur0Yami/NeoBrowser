@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:background="@color/dark_bg">
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:orientation="vertical" android:padding="16dp" android:gap="6dp">
+
+        <TextView android:text="GENERAL"
+            android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:textColor="@color/dark_acc" android:textSize="11sp" android:textStyle="bold"
+            android:letterSpacing="0.08" android:layout_marginTop="8dp" android:layout_marginBottom="4dp"/>
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+            android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:hint="Homepage URL">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/input_homepage"
+                android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:inputType="textUri" android:singleLine="true"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <Button android:id="@+id/btn_save_homepage"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:text="Save Homepage"/>
+
+        <TextView android:text="Start page"
+            android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:textColor="@color/dark_txt" android:textSize="13sp" android:layout_marginTop="10dp"/>
+        <Spinner android:id="@+id/spinner_start_page"
+            android:layout_width="match_parent" android:layout_height="48dp"
+            android:background="@color/dark_surf"/>
+
+        <TextView android:text="DISPLAY"
+            android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:textColor="@color/dark_acc" android:textSize="11sp" android:textStyle="bold"
+            android:letterSpacing="0.08" android:layout_marginTop="14dp" android:layout_marginBottom="4dp"/>
+
+        <TextView android:text="Theme"
+            android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:textColor="@color/dark_txt" android:textSize="13sp"/>
+        <Spinner android:id="@+id/spinner_theme"
+            android:layout_width="match_parent" android:layout_height="48dp"
+            android:background="@color/dark_surf"/>
+
+        <TextView android:text="Fullscreen mode"
+            android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:textColor="@color/dark_txt" android:textSize="13sp" android:layout_marginTop="8dp"/>
+        <Spinner android:id="@+id/spinner_fullscreen"
+            android:layout_width="match_parent" android:layout_height="48dp"
+            android:background="@color/dark_surf"/>
+
+        <TextView android:text="DOWNLOAD"
+            android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:textColor="@color/dark_acc" android:textSize="11sp" android:textStyle="bold"
+            android:letterSpacing="0.08" android:layout_marginTop="14dp" android:layout_marginBottom="4dp"/>
+
+        <TextView android:text="Download manager"
+            android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:textColor="@color/dark_txt" android:textSize="13sp"/>
+        <Spinner android:id="@+id/spinner_dl_manager"
+            android:layout_width="match_parent" android:layout_height="48dp"
+            android:background="@color/dark_surf"/>
+
+    </LinearLayout>
+</ScrollView>

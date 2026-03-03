@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent" android:layout_height="wrap_content"
+    android:layout_margin="5dp"
+    app:cardCornerRadius="12dp"
+    app:cardBackgroundColor="@color/dark_surf"
+    app:cardElevation="0dp"
+    app:strokeColor="@color/dark_bord"
+    app:strokeWidth="1dp">
+
+    <LinearLayout android:layout_width="match_parent"
+        android:layout_height="wrap_content" android:orientation="vertical">
+
+        <!-- Group bar -->
+        <View android:id="@+id/group_indicator"
+            android:layout_width="match_parent" android:layout_height="3dp"
+            android:visibility="gone"/>
+
+        <!-- Thumbnail area -->
+        <FrameLayout android:layout_width="match_parent" android:layout_height="110dp">
+            <LinearLayout android:id="@+id/thumb_placeholder"
+                android:layout_width="match_parent" android:layout_height="match_parent"
+                android:gravity="center" android:background="@color/dark_bg2">
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="&#127760;" android:textSize="26sp"/>
+            </LinearLayout>
+            <ImageView android:id="@+id/tab_thumb"
+                android:layout_width="match_parent" android:layout_height="match_parent"
+                android:scaleType="centerCrop" android:visibility="gone"/>
+            <TextView android:id="@+id/btn_close_tab"
+                android:layout_width="26dp" android:layout_height="26dp"
+                android:layout_gravity="top|end" android:layout_margin="6dp"
+                android:text="&#10005;" android:textSize="10sp" android:gravity="center"
+                android:textColor="#FFFFFF" android:background="#CC000000"
+                android:clickable="true" android:focusable="true"/>
+        </FrameLayout>
+
+        <!-- Info -->
+        <LinearLayout android:layout_width="match_parent" android:layout_height="40dp"
+            android:orientation="horizontal" android:gravity="center_vertical"
+            android:paddingStart="8dp" android:paddingEnd="8dp" android:background="@color/dark_surf">
+            <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content"
+                android:layout_weight="1" android:orientation="vertical">
+                <TextView android:id="@+id/tab_title"
+                    android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:text="New Tab" android:textColor="@color/dark_txt"
+                    android:textSize="11sp" android:textStyle="bold"
+                    android:maxLines="1" android:ellipsize="end"/>
+                <TextView android:id="@+id/tab_url"
+                    android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:textColor="@color/dark_hint" android:textSize="9sp"
+                    android:maxLines="1" android:ellipsize="end"/>
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/root_layout"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:orientation="vertical" android:background="@color/dark_bg">
+
+    <!-- Toolbar (auto-hide) -->
+    <LinearLayout android:id="@+id/toolbar"
+        android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:orientation="vertical" android:background="@color/dark_surf"
+        android:elevation="4dp">
+
+        <View android:id="@+id/status_bar_space"
+            android:layout_width="match_parent" android:layout_height="0dp"/>
+
+        <!-- Nav row -->
+        <LinearLayout android:layout_width="match_parent" android:layout_height="52dp"
+            android:orientation="horizontal" android:paddingStart="8dp" android:paddingEnd="8dp"
+            android:gravity="center_vertical" android:gap="2dp">
+
+            <ImageButton android:id="@+id/btn_back"
+                android:layout_width="36dp" android:layout_height="36dp"
+                android:src="@drawable/ic_back" android:alpha="0.35"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="Back"/>
+
+            <ImageButton android:id="@+id/btn_forward"
+                android:layout_width="36dp" android:layout_height="36dp"
+                android:src="@drawable/ic_forward" android:alpha="0.35"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="Forward"/>
+
+            <!-- URL Bar -->
+            <LinearLayout android:layout_width="0dp" android:layout_height="38dp"
+                android:layout_weight="1" android:layout_marginStart="4dp" android:layout_marginEnd="4dp"
+                android:background="@drawable/bg_url_bar"
+                android:orientation="horizontal" android:gravity="center_vertical"
+                android:paddingStart="10dp" android:paddingEnd="10dp" android:gap="6dp">
+
+                <ImageView android:layout_width="13dp" android:layout_height="13dp"
+                    android:src="@drawable/ic_lock" android:contentDescription="SSL"/>
+
+                <EditText android:id="@+id/url_bar"
+                    android:layout_width="0dp" android:layout_height="match_parent"
+                    android:layout_weight="1" android:background="@null"
+                    android:hint="@string/search_or_url"
+                    android:textColorHint="@color/dark_hint"
+                    android:textColor="@color/dark_txt"
+                    android:textSize="13sp" android:singleLine="true"
+                    android:inputType="textUri" android:imeOptions="actionGo"
+                    android:selectAllOnFocus="true"/>
+            </LinearLayout>
+
+            <!-- Tab count badge -->
+            <FrameLayout android:layout_width="36dp" android:layout_height="36dp"
+                android:clickable="true" android:focusable="true"
+                android:id="@+id/btn_tabs">
+                <TextView android:id="@+id/tab_count_badge"
+                    android:layout_width="22dp" android:layout_height="22dp"
+                    android:layout_gravity="center"
+                    android:text="1" android:textSize="10sp" android:textStyle="bold"
+                    android:textColor="@color/dark_ico"
+                    android:gravity="center"
+                    android:background="@drawable/bg_tab_badge"/>
+            </FrameLayout>
+
+            <ImageButton android:id="@+id/btn_menu"
+                android:layout_width="36dp" android:layout_height="36dp"
+                android:src="@drawable/ic_menu"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="Menu"/>
+        </LinearLayout>
+
+        <!-- Loading bar -->
+        <ProgressBar android:id="@+id/progress_bar"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent" android:layout_height="2dp"
+            android:max="100" android:progressTint="@color/dark_acc"
+            android:progressBackgroundTint="@color/dark_bg3"
+            android:visibility="gone"/>
+    </LinearLayout>
+
+    <!-- WebView -->
+    <com.neobrowser.browser.NeoWebView
+        android:id="@+id/webview"
+        android:layout_width="match_parent" android:layout_height="0dp"
+        android:layout_weight="1"/>
+
+    <!-- Bottom Navigation -->
+    <LinearLayout android:id="@+id/bottom_nav"
+        android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:orientation="vertical" android:background="@color/dark_surf">
+
+        <View android:layout_width="match_parent" android:layout_height="1dp"
+            android:background="@color/dark_bord"/>
+
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:orientation="horizontal" android:paddingTop="6dp" android:paddingBottom="10dp">
+
+            <!-- Home -->
+            <LinearLayout android:id="@+id/nav_home"
+                android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1"
+                android:orientation="vertical" android:gravity="center"
+                android:background="?attr/selectableItemBackgroundBorderless">
+                <FrameLayout android:layout_width="36dp" android:layout_height="30dp">
+                    <ImageView android:id="@+id/nav_home_icon"
+                        android:layout_width="22dp" android:layout_height="22dp"
+                        android:layout_gravity="center" android:src="@drawable/ic_home"/>
+                </FrameLayout>
+                <TextView android:text="@string/home"
+                    android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:textSize="9sp" android:textColor="@color/dark_ico" android:layout_marginTop="1dp"/>
+            </LinearLayout>
+
+            <!-- Tabs -->
+            <LinearLayout android:id="@+id/nav_tabs"
+                android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1"
+                android:orientation="vertical" android:gravity="center"
+                android:background="?attr/selectableItemBackgroundBorderless">
+                <FrameLayout android:layout_width="36dp" android:layout_height="30dp">
+                    <ImageView android:id="@+id/nav_tabs_icon"
+                        android:layout_width="22dp" android:layout_height="22dp"
+                        android:layout_gravity="center" android:src="@drawable/ic_tabs"/>
+                </FrameLayout>
+                <TextView android:text="@string/tabs"
+                    android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:textSize="9sp" android:textColor="@color/dark_ico" android:layout_marginTop="1dp"/>
+            </LinearLayout>
+
+            <!-- Bookmarks -->
+            <LinearLayout android:id="@+id/nav_bookmarks"
+                android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1"
+                android:orientation="vertical" android:gravity="center"
+                android:background="?attr/selectableItemBackgroundBorderless">
+                <FrameLayout android:layout_width="36dp" android:layout_height="30dp">
+                    <ImageView android:id="@+id/nav_bookmarks_icon"
+                        android:layout_width="22dp" android:layout_height="22dp"
+                        android:layout_gravity="center" android:src="@drawable/ic_bookmark"/>
+                </FrameLayout>
+                <TextView android:text="@string/bookmarks"
+                    android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:textSize="9sp" android:textColor="@color/dark_ico" android:layout_marginTop="1dp"/>
+            </LinearLayout>
+
+            <!-- Settings/Account -->
+            <LinearLayout android:id="@+id/nav_settings"
+                android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1"
+                android:orientation="vertical" android:gravity="center"
+                android:background="?attr/selectableItemBackgroundBorderless">
+                <FrameLayout android:layout_width="36dp" android:layout_height="30dp">
+                    <ImageView android:id="@+id/nav_settings_icon"
+                        android:layout_width="22dp" android:layout_height="22dp"
+                        android:layout_gravity="center" android:src="@drawable/ic_account"/>
+                </FrameLayout>
+                <TextView android:text="@string/settings"
+                    android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:textSize="9sp" android:textColor="@color/dark_ico" android:layout_marginTop="1dp"/>
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>

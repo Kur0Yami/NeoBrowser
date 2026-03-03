@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="wrap_content">
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:orientation="vertical" android:padding="20dp" android:gap="10dp">
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+            android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:hint="Script name">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/input_name"
+                android:layout_width="match_parent" android:layout_height="wrap_content"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+            android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:hint="Description (optional)">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/input_description"
+                android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:inputType="textMultiLine" android:lines="2"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+            android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:hint="URL patterns (* = all, comma separated)">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/input_matches"
+                android:layout_width="match_parent" android:layout_height="wrap_content"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <Spinner android:id="@+id/spinner_run_at"
+            android:layout_width="match_parent" android:layout_height="48dp"
+            android:background="@color/dark_surf" android:padding="8dp"/>
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:hint="JavaScript code">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/input_code"
+                android:layout_width="match_parent" android:layout_height="180dp"
+                android:inputType="textMultiLine" android:gravity="top"
+                android:typeface="monospace" android:textSize="11sp"/>
+        </com.google.android.material.textfield.TextInputLayout>
+    </LinearLayout>
+</ScrollView>

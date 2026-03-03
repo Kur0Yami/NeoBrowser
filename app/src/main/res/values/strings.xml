@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">NeoBrowser</string>
+    <string name="search_or_url">Search or enter URL</string>
+    <string name="new_tab">New Tab</string>
+    <string name="tabs">Tabs</string>
+    <string name="home">Home</string>
+    <string name="bookmarks">Saved</string>
+    <string name="settings">Account</string>
+</resources>

@@ -22,21 +22,9 @@
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW"/>
-                <category android:name="android.intent.category.DEFAULT"/>
-                <category android:name="android.intent.category.BROWSABLE"/>
-                <data android:scheme="http"/>
-                <data android:scheme="https"/>
-            </intent-filter>
         </activity>
-
-        <activity android:name=".browser.SettingsActivity"
-            android:exported="false" android:label="Settings"/>
-        <activity android:name=".userscript.UserscriptManagerActivity"
-            android:exported="false" android:label="Userscripts"/>
-        <activity android:name=".tabs.TabsOverviewActivity"
-            android:exported="false" android:label="Tabs"/>
-
+        <activity android:name=".browser.SettingsActivity" android:exported="false" android:label="Settings"/>
+        <activity android:name=".userscript.UserscriptManagerActivity" android:exported="false" android:label="Userscripts"/>
+        <activity android:name=".tabs.TabsOverviewActivity" android:exported="false" android:label="Tabs"/>
     </application>
 </manifest>

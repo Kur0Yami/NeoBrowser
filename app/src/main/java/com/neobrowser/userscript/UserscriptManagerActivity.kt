@@ -1,22 +1,34 @@
 package com.neobrowser.userscript
 
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.neobrowser.R
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import java.net.HttpURLConnection
+import java.net.URL
 
 class UserscriptManagerActivity : AppCompatActivity() {
-
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: ScriptAdapter
     private lateinit var manager: UserscriptManager
+
+    // Launcher untuk Storage Access Framework (Pilih File)
+    private val filePickerLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
+        uri?.let { readScriptFromUri(it) }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,18 +60,31 @@ class UserscriptManagerActivity : AppCompatActivity() {
                     .show()
             }
         )
-
         recyclerView.adapter = adapter
         refreshList()
 
         val fab = findViewById<FloatingActionButton>(R.id.fab_add_script)
-        fab.setOnClickListener { showEditDialog(null) }
+        fab.setOnClickListener {
+            // Ubah FAB jadi menu pilihan
+            val options = arrayOf("Tulis Manual", "Import dari URL", "Import dari File Manager")
+            AlertDialog.Builder(this)
+                .setTitle("Tambah Userscript")
+                .setItems(options) { _, which ->
+                    when (which) {
+                        0 -> showEditDialog(null)
+                        1 -> showImportUrlDialog()
+                        2 -> filePickerLauncher.launch("*/*")
+                    }
+                }
+                .show()
+        }
     }
 
     private fun refreshList() {
         adapter.setScripts(manager.getAllScripts())
     }
 
+    // [FUNGSI ASLI LU TETAP SAMA]
     private fun showEditDialog(existingScript: Userscript?) {
         val dialogView = layoutInflater.inflate(R.layout.dialog_edit_script, null)
         val nameInput = dialogView.findViewById<EditText>(R.id.input_name)
@@ -67,10 +92,10 @@ class UserscriptManagerActivity : AppCompatActivity() {
         val matchesInput = dialogView.findViewById<EditText>(R.id.input_matches)
         val codeInput = dialogView.findViewById<EditText>(R.id.input_code)
         val runAtSpinner = dialogView.findViewById<Spinner>(R.id.spinner_run_at)
-
         val runAtOptions = arrayOf("document-end", "document-start", "document-idle")
+        
         runAtSpinner.adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, runAtOptions)
-
+        
         existingScript?.let {
             nameInput.setText(it.name)
             descInput.setText(it.description)
@@ -87,7 +112,7 @@ class UserscriptManagerActivity : AppCompatActivity() {
                 val matches = matchesInput.text.toString()
                     .split(",").map { it.trim() }.filter { it.isNotEmpty() }
                     .ifEmpty { listOf("*") }
-
+                
                 if (existingScript == null) {
                     manager.addScript(Userscript(
                         name = name,
@@ -111,12 +136,112 @@ class UserscriptManagerActivity : AppCompatActivity() {
             .show()
     }
 
+    // --- FITUR BARU: IMPORT URL ---
+    private fun showImportUrlDialog() {
+        val input = EditText(this).apply {
+            hint = "https://example.com/script.user.js"
+            setPadding(50, 50, 50, 50)
+        }
+        AlertDialog.Builder(this)
+            .setTitle("Import dari URL")
+            .setView(input)
+            .setPositiveButton("Import") { _, _ ->
+                val urlStr = input.text.toString()
+                if (urlStr.isNotBlank()) fetchScriptFromUrl(urlStr)
+            }
+            .setNegativeButton("Batal", null)
+            .show()
+    }
+
+    private fun fetchScriptFromUrl(urlString: String) {
+        Toast.makeText(this, "Mengunduh...", Toast.LENGTH_SHORT).show()
+        lifecycleScope.launch(Dispatchers.IO) {
+            try {
+                val url = URL(urlString)
+                val connection = url.openConnection() as HttpURLConnection
+                connection.requestMethod = "GET"
+                connection.connectTimeout = 5000
+                connection.readTimeout = 5000
+
+                val scriptContent = connection.inputStream.bufferedReader().use { it.readText() }
+
+                withContext(Dispatchers.Main) {
+                    if (scriptContent.contains("==UserScript==")) {
+                        parseAndSaveUserscript(scriptContent)
+                        Toast.makeText(this@UserscriptManagerActivity, "Script berhasil ditambahkan!", Toast.LENGTH_SHORT).show()
+                    } else {
+                        Toast.makeText(this@UserscriptManagerActivity, "URL tidak berisi userscript yang valid", Toast.LENGTH_SHORT).show()
+                    }
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+                withContext(Dispatchers.Main) {
+                    Toast.makeText(this@UserscriptManagerActivity, "Gagal mengunduh script.", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+    }
+
+    // --- FITUR BARU: IMPORT FILE MANAGER ---
+    private fun readScriptFromUri(uri: Uri) {
+        try {
+            val inputStream = contentResolver.openInputStream(uri)
+            val scriptContent = inputStream?.bufferedReader()?.use { it.readText() }
+
+            if (!scriptContent.isNullOrEmpty() && scriptContent.contains("==UserScript==")) {
+                parseAndSaveUserscript(scriptContent)
+                Toast.makeText(this, "Script berhasil ditambahkan dari file!", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(this, "Format file tidak valid (bukan userscript)", Toast.LENGTH_SHORT).show()
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Toast.makeText(this, "Gagal membaca file", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    // --- FITUR BARU: PARSER METADATA ---
+    private fun parseAndSaveUserscript(code: String) {
+        var scriptName = "Imported Script"
+        var scriptDesc = ""
+        val matchPattern = mutableListOf<String>()
+        var runAt = "document-end"
+
+        // Ekstrak metadata blok Greasemonkey/Tampermonkey
+        val lines = code.split("\n")
+        var inMetadata = false
+        for (line in lines) {
+            val trimmed = line.trim()
+            if (trimmed == "// ==UserScript==") inMetadata = true
+            else if (trimmed == "// ==/UserScript==") break
+            else if (inMetadata) {
+                if (trimmed.startsWith("// @name ")) scriptName = trimmed.substringAfter("// @name").trim()
+                else if (trimmed.startsWith("// @description ")) scriptDesc = trimmed.substringAfter("// @description").trim()
+                else if (trimmed.startsWith("// @match ")) matchPattern.add(trimmed.substringAfter("// @match").trim())
+                else if (trimmed.startsWith("// @run-at ")) runAt = trimmed.substringAfter("// @run-at").trim()
+            }
+        }
+        
+        // Fallback kalau gak ada tag @match
+        if (matchPattern.isEmpty()) matchPattern.add("*://*/*")
+
+        manager.addScript(Userscript(
+            name = scriptName,
+            description = scriptDesc,
+            matches = matchPattern,
+            code = code,
+            runAt = runAt
+        ))
+        refreshList()
+    }
+
     override fun onSupportNavigateUp(): Boolean {
         finish()
         return true
     }
 }
 
+// [ADAPTER ASLI LU TETAP SAMA]
 class ScriptAdapter(
     private val onToggle: (Userscript) -> Unit,
     private val onEdit: (Userscript) -> Unit,
@@ -155,8 +280,10 @@ class ScriptAdapter(
             desc.text = script.description.ifBlank { "No description" }
             matches.text = "Matches: ${script.matches.joinToString(", ")}"
             toggle.isChecked = script.enabled
+
             toggle.setOnCheckedChangeListener(null)
             toggle.setOnCheckedChangeListener { _, _ -> onToggle(script) }
+
             editBtn.setOnClickListener { onEdit(script) }
             deleteBtn.setOnClickListener { onDelete(script) }
         }

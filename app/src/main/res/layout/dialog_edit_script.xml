@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Script Name"
+            android:textSize="12sp"
+            android:textColor="#888"
+            android:layout_marginBottom="4dp"/>
+
+        <EditText
+            android:id="@+id/input_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="My Awesome Script"
+            android:inputType="text"
+            android:layout_marginBottom="12dp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Description (optional)"
+            android:textSize="12sp"
+            android:textColor="#888"
+            android:layout_marginBottom="4dp"/>
+
+        <EditText
+            android:id="@+id/input_description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="What does this script do?"
+            android:inputType="textMultiLine"
+            android:lines="2"
+            android:layout_marginBottom="12dp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="URL Matches (comma separated, * = all)"
+            android:textSize="12sp"
+            android:textColor="#888"
+            android:layout_marginBottom="4dp"/>
+
+        <EditText
+            android:id="@+id/input_matches"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="*youtube.com/*, *google.com/*"
+            android:inputType="text"
+            android:layout_marginBottom="12dp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Run At"
+            android:textSize="12sp"
+            android:textColor="#888"
+            android:layout_marginBottom="4dp"/>
+
+        <Spinner
+            android:id="@+id/spinner_run_at"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="JavaScript Code"
+            android:textSize="12sp"
+            android:textColor="#888"
+            android:layout_marginBottom="4dp"/>
+
+        <EditText
+            android:id="@+id/input_code"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:hint="// Your JavaScript code here&#10;// GM_ API available: GM_addStyle, GM_getValue, GM_setValue, etc."
+            android:inputType="textMultiLine"
+            android:gravity="top"
+            android:typeface="monospace"
+            android:textSize="12sp"
+            android:background="@android:color/darker_gray"
+            android:padding="8dp"
+            android:scrollbars="vertical"/>
+
+    </LinearLayout>
+
+</ScrollView>

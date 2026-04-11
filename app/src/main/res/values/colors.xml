@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- ═══════════════════════════════════════
+         NeoBrowser — Modern Dark Navy Theme
+         Primary: #0F0F1A  (deep navy black)
+         Surface: #1A1A2E  (dark navy)
+         Toolbar: #16162A  (slightly lighter navy)
+         Card:    #1E1E35  (card surface)
+         Accent:  #BB86FC  (soft purple)
+         Accent2: #7C4DFF  (deep purple)
+    ═══════════════════════════════════════ -->
+
+    <!-- Background layers -->
+    <color name="bg_primary">#0F0F1A</color>
+    <color name="bg_secondary">#1A1A2E</color>
+    <color name="bg_toolbar">#16162A</color>
+    <color name="bg_card">#1E1E35</color>
+    <color name="bg_thumbnail">#131325</color>
+    <color name="bg_url_bar">#252540</color>
+    <color name="bg_chip">#2A2A48</color>
+    <color name="bg_chip_selected">#3D2B6E</color>
+    <color name="progress_bg">#2A2A48</color>
+
+    <!-- Text colors -->
+    <color name="text_primary">#F0F0FF</color>
+    <color name="text_secondary">#A0A0C0</color>
+    <color name="text_hint">#606080</color>
+
+    <!-- Icon colors -->
+    <color name="icon_color">#C0C0E0</color>
+    <color name="icon_inactive">#505070</color>
+
+    <!-- Accent / Brand -->
+    <color name="accent">#BB86FC</color>
+    <color name="accent_deep">#7C4DFF</color>
+    <color name="accent_alpha">#33BB86FC</color>
+
+    <!-- Semantic colors -->
+    <color name="divider_color">#1F1F3A</color>
+    <color name="ripple_color">#22BB86FC</color>
+    <color name="close_btn_bg">#88000000</color>
+
+    <!-- Tab group colors -->
+    <color name="group_red">#CF6679</color>
+    <color name="group_orange">#E8956D</color>
+    <color name="group_yellow">#E8C86D</color>
+    <color name="group_green">#6DBE8C</color>
+    <color name="group_blue">#6DA8E8</color>
+    <color name="group_purple">#BB86FC</color>
+    <color name="group_pink">#E86DAD</color>
+
+    <!-- Status / feedback -->
+    <color name="success">#6DBE8C</color>
+    <color name="warning">#E8C86D</color>
+    <color name="error">#CF6679</color>
+
+    <!-- Legacy compat -->
+    <color name="colorPrimary">#1A1A2E</color>
+    <color name="colorPrimaryDark">#0F0F1A</color>
+    <color name="colorAccent">#BB86FC</color>
+
+    <!-- Material Components DayNight required aliases -->
+    <!-- These are referenced by auto-generated values-night files -->
+    <color name="dark_acc">#BB86FC</color>
+    <color name="dark_surf">#1E1E35</color>
+    <color name="dark_txt">#F0F0FF</color>
+    <color name="dark_bg">#0F0F1A</color>
+
+    <!-- Standard Material color slots -->
+    <color name="purple_200">#FFBB86FC</color>
+    <color name="purple_500">#FF6200EE</color>
+    <color name="purple_700">#FF3700B3</color>
+    <color name="teal_200">#FF03DAC5</color>
+    <color name="teal_700">#FF018786</color>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+
+</resources>

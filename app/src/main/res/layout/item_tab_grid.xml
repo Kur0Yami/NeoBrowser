@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="6dp">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="16dp"
+        app:cardBackgroundColor="@color/bg_card"
+        app:cardElevation="0dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!-- Group color indicator bar -->
+            <View
+                android:id="@+id/group_indicator"
+                android:layout_width="match_parent"
+                android:layout_height="3dp"
+                android:visibility="gone"/>
+
+            <!-- Tab thumbnail area -->
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="140dp">
+
+                <!-- Placeholder when no thumbnail -->
+                <LinearLayout
+                    android:id="@+id/thumb_placeholder"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:background="@color/bg_thumbnail">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="&#127760;"
+                        android:textSize="30sp"/>
+                </LinearLayout>
+
+                <!-- Actual thumbnail screenshot -->
+                <ImageView
+                    android:id="@+id/tab_thumb"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    android:visibility="gone"/>
+
+                <!-- Selection overlay -->
+                <View
+                    android:id="@+id/selected_overlay"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="#99BB86FC"
+                    android:visibility="gone"/>
+
+                <!-- Selection checkmark -->
+                <TextView
+                    android:id="@+id/check_icon"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_gravity="center"
+                    android:text="&#10003;"
+                    android:textColor="#ffffff"
+                    android:textSize="20sp"
+                    android:gravity="center"
+                    android:background="@drawable/tab_count_bg"
+                    android:visibility="gone"/>
+
+                <!-- Close button - top right -->
+                <TextView
+                    android:id="@+id/btn_close_tab"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="top|end"
+                    android:layout_margin="8dp"
+                    android:text="&#10005;"
+                    android:textSize="13sp"
+                    android:textColor="#CCFFFFFF"
+                    android:gravity="center"
+                    android:background="@drawable/close_btn_bg"
+                    android:clickable="true"
+                    android:focusable="true"/>
+
+            </FrameLayout>
+
+            <!-- Tab info bar -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingStart="12dp"
+                android:paddingEnd="10dp"
+                android:background="@color/bg_card">
+
+                <!-- Favicon -->
+                <TextView
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:text="&#127760;"
+                    android:textSize="10sp"
+                    android:gravity="center"
+                    android:layout_marginEnd="8dp"/>
+
+                <!-- Title + URL stack -->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tab_title"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="New Tab"
+                        android:textColor="@color/text_primary"
+                        android:textSize="12sp"
+                        android:textStyle="bold"
+                        android:maxLines="1"
+                        android:ellipsize="end"/>
+
+                    <TextView
+                        android:id="@+id/tab_url"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="neobrowser"
+                        android:textColor="@color/text_hint"
+                        android:textSize="10sp"
+                        android:maxLines="1"
+                        android:ellipsize="end"/>
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+</FrameLayout>

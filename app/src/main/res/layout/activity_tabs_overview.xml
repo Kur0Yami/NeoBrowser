@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/bg_primary">
+
+    <!-- ═══ Normal Header ═══ -->
+    <LinearLayout
+        android:id="@+id/header_normal"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:orientation="horizontal"
+        android:background="@color/bg_toolbar"
+        android:gravity="center_vertical"
+        android:paddingStart="16dp"
+        android:paddingEnd="8dp"
+        android:elevation="8dp">
+
+        <TextView
+            android:id="@+id/tv_tab_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Tabs"
+            android:textColor="@color/text_primary"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:fontFamily="sans-serif-medium"
+            android:letterSpacing="0.01"/>
+
+        <ImageButton
+            android:id="@+id/btn_select_tabs"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:src="@drawable/ic_select"
+            android:background="@drawable/btn_nav_bg"
+            android:tint="@color/icon_color"
+            android:contentDescription="Select"
+            android:padding="10dp"/>
+
+        <ImageButton
+            android:id="@+id/btn_delete_all"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:src="@android:drawable/ic_menu_delete"
+            android:background="@drawable/btn_nav_bg"
+            android:tint="@color/icon_color"
+            android:contentDescription="Delete All"
+            android:padding="10dp"/>
+
+        <ImageButton
+            android:id="@+id/btn_normal_menu"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:src="@drawable/ic_more"
+            android:background="@drawable/btn_nav_bg"
+            android:tint="@color/icon_color"
+            android:contentDescription="Menu"
+            android:padding="10dp"/>
+
+        <ImageButton
+            android:id="@+id/btn_close_view"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:src="@android:drawable/ic_menu_close_clear_cancel"
+            android:background="@drawable/btn_nav_bg"
+            android:tint="@color/icon_color"
+            android:contentDescription="Close"
+            android:padding="10dp"/>
+    </LinearLayout>
+
+    <!-- ═══ Selection mode header ═══ -->
+    <LinearLayout
+        android:id="@+id/header_select"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:orientation="horizontal"
+        android:background="@color/bg_toolbar"
+        android:gravity="center_vertical"
+        android:paddingStart="4dp"
+        android:paddingEnd="4dp"
+        android:visibility="gone">
+
+        <ImageButton
+            android:id="@+id/btn_back_select"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:src="@drawable/ic_back"
+            android:background="@drawable/btn_nav_bg"
+            android:tint="@color/icon_color"
+            android:contentDescription="Back"
+            android:padding="10dp"/>
+
+        <TextView
+            android:id="@+id/tv_select_count"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="0 Tabs Selected"
+            android:textColor="@color/text_primary"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:paddingStart="8dp"/>
+
+        <ImageButton
+            android:id="@+id/btn_select_menu"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:src="@drawable/ic_more"
+            android:background="@drawable/btn_nav_bg"
+            android:tint="@color/icon_color"
+            android:contentDescription="Actions"
+            android:padding="10dp"/>
+    </LinearLayout>
+
+    <!-- ═══ Group filter chips row ═══ -->
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="52dp"
+        android:scrollbars="none"
+        android:background="@color/bg_toolbar"
+        android:paddingBottom="10dp"
+        android:paddingTop="4dp">
+
+        <LinearLayout
+            android:id="@+id/group_chips"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:paddingStart="14dp"
+            android:paddingEnd="14dp"/>
+
+    </HorizontalScrollView>
+
+    <!-- Subtle divider line -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/divider_color"/>
+
+    <!-- ═══ Tabs grid + FAB ═══ -->
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/tabs_recycler"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="12dp"
+            android:clipToPadding="false"/>
+
+        <!-- FAB: New Tab - modern extended style -->
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab_new_tab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_margin="20dp"
+            android:src="@android:drawable/ic_input_add"
+            app:backgroundTint="@color/accent"
+            app:fabSize="normal"
+            android:contentDescription="New Tab"/>
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+</LinearLayout>

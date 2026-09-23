@@ -8,9 +8,11 @@ import java.util.UUID
 data class Userscript(
     val id: String = UUID.randomUUID().toString(),
     var name: String,
+    var namespace: String = "",
     var description: String = "",
     var version: String = "1.0",
     var author: String = "",
+    var icon: String = "",
     var matches: List<String> = listOf("*"),  // URL patterns
     var excludes: List<String> = listOf(),
     var code: String,
@@ -121,6 +123,68 @@ class UserscriptManager private constructor(private val context: Context) {
         @Volatile private var instance: UserscriptManager? = null
         fun getInstance(context: Context) = instance ?: synchronized(this) {
             instance ?: UserscriptManager(context.applicationContext).also { instance = it }
+        }
+
+        /**
+         * Parse blok metadata gaya Tampermonkey/Greasemonkey/VIA:
+         * // ==UserScript==
+         * // @name ...
+         * // @namespace ...
+         * // @match ...
+         * ...
+         * // ==/UserScript==
+         * Return null kalau kode gak punya blok metadata sama sekali (dianggap plain JS).
+         */
+        fun parseMetadata(code: String): Userscript? {
+            val lines = code.split("\n")
+            var inMetadata = false
+            var found = false
+
+            var scriptName = "Unnamed Script"
+            var scriptNamespace = ""
+            var scriptDesc = ""
+            var scriptVersion = "1.0"
+            var scriptAuthor = ""
+            var scriptIcon = ""
+            val matchPattern = mutableListOf<String>()
+            val excludePattern = mutableListOf<String>()
+            var runAt = "document-end"
+
+            for (line in lines) {
+                val trimmed = line.trim()
+                if (trimmed == "// ==UserScript==") { inMetadata = true; found = true }
+                else if (trimmed == "// ==/UserScript==") break
+                else if (inMetadata) {
+                    when {
+                        trimmed.startsWith("// @name ")      -> scriptName = trimmed.substringAfter("// @name").trim()
+                        trimmed.startsWith("// @namespace ") -> scriptNamespace = trimmed.substringAfter("// @namespace").trim()
+                        trimmed.startsWith("// @description ")-> scriptDesc = trimmed.substringAfter("// @description").trim()
+                        trimmed.startsWith("// @version ")   -> scriptVersion = trimmed.substringAfter("// @version").trim()
+                        trimmed.startsWith("// @author ")    -> scriptAuthor = trimmed.substringAfter("// @author").trim()
+                        trimmed.startsWith("// @icon ")      -> scriptIcon = trimmed.substringAfter("// @icon").trim()
+                        trimmed.startsWith("// @match ")     -> matchPattern.add(trimmed.substringAfter("// @match").trim())
+                        trimmed.startsWith("// @include ")   -> matchPattern.add(trimmed.substringAfter("// @include").trim())
+                        trimmed.startsWith("// @exclude ")   -> excludePattern.add(trimmed.substringAfter("// @exclude").trim())
+                        trimmed.startsWith("// @run-at ")    -> runAt = trimmed.substringAfter("// @run-at").trim()
+                    }
+                }
+            }
+
+            if (!found) return null
+            if (matchPattern.isEmpty()) matchPattern.add("*://*/*")
+
+            return Userscript(
+                name = scriptName,
+                namespace = scriptNamespace,
+                description = scriptDesc,
+                version = scriptVersion,
+                author = scriptAuthor,
+                icon = scriptIcon,
+                matches = matchPattern,
+                excludes = excludePattern,
+                code = code,
+                runAt = runAt
+            )
         }
     }
 }

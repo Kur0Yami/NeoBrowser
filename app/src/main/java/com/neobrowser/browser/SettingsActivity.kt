@@ -1,7 +1,11 @@
 package com.neobrowser.browser
 
 import android.os.Bundle
+import android.webkit.CookieManager
+import android.webkit.WebStorage
+import android.webkit.WebView
 import android.widget.*
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.neobrowser.R
 
@@ -15,6 +19,8 @@ class SettingsActivity : AppCompatActivity() {
         const val KEY_HOMEPAGE = "homepage"
         const val KEY_START_PAGE = "start_page"
         const val KEY_NEW_TAB = "new_tab_page"
+        const val KEY_UA_MODE = "ua_mode"
+        const val KEY_CUSTOM_UA = "custom_ua"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -109,6 +115,58 @@ class SettingsActivity : AppCompatActivity() {
             }
             override fun onNothingSelected(p: AdapterView<*>) {}
         }
+
+        // --- User Agent ---
+        val uaSpinner = findViewById<Spinner>(R.id.spinner_ua_mode)
+        val uaOptions = arrayOf("Mobile Chrome (default)", "Custom User-Agent")
+        val uaValues  = arrayOf("default", "custom")
+        uaSpinner.adapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, uaOptions)
+        val savedUaMode = prefs.getString(KEY_UA_MODE, "default")
+        uaSpinner.setSelection(uaValues.indexOf(savedUaMode).coerceAtLeast(0))
+
+        val customUaInput = findViewById<EditText>(R.id.input_custom_ua)
+        val btnSaveUa = findViewById<Button>(R.id.btn_save_ua)
+        customUaInput.setText(prefs.getString(KEY_CUSTOM_UA, ""))
+        val uaExtrasVisible = if (savedUaMode == "custom") android.view.View.VISIBLE else android.view.View.GONE
+        customUaInput.visibility = uaExtrasVisible
+        btnSaveUa.visibility = uaExtrasVisible
+
+        uaSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(p: AdapterView<*>, v: android.view.View?, pos: Int, id: Long) {
+                prefs.edit().putString(KEY_UA_MODE, uaValues[pos]).apply()
+                val vis = if (uaValues[pos] == "custom") android.view.View.VISIBLE else android.view.View.GONE
+                customUaInput.visibility = vis
+                btnSaveUa.visibility = vis
+            }
+            override fun onNothingSelected(p: AdapterView<*>) {}
+        }
+        btnSaveUa.setOnClickListener {
+            prefs.edit().putString(KEY_CUSTOM_UA, customUaInput.text.toString().trim()).apply()
+            Toast.makeText(this, "Saved!", Toast.LENGTH_SHORT).show()
+        }
+
+        // --- Clear browsing data ---
+        findViewById<Button>(R.id.btn_clear_data).setOnClickListener {
+            AlertDialog.Builder(this)
+                .setTitle("Clear browsing data?")
+                .setMessage("This removes cookies, cache, and site storage (localStorage/IndexedDB). You'll be logged out of most sites. This cannot be undone.")
+                .setPositiveButton("Clear") { _, _ -> clearBrowsingData() }
+                .setNegativeButton("Cancel", null)
+                .show()
+        }
+    }
+
+    private fun clearBrowsingData() {
+        CookieManager.getInstance().removeAllCookies(null)
+        CookieManager.getInstance().flush()
+        WebStorage.getInstance().deleteAllData()
+        // WebView butuh instance aktif untuk membersihkan cache HTTP-nya sendiri
+        val tempWebView = WebView(this)
+        tempWebView.clearCache(true)
+        tempWebView.clearHistory()
+        tempWebView.clearFormData()
+        tempWebView.destroy()
+        Toast.makeText(this, "Browsing data cleared", Toast.LENGTH_SHORT).show()
     }
 
     override fun onSupportNavigateUp(): Boolean { finish(); return true }

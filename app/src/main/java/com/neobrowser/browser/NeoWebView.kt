@@ -16,16 +16,21 @@ class NeoWebView @JvmOverloads constructor(
     private var isDesktopMode = false
     private val userscriptManager = UserscriptManager.getInstance(context)
 
-    private val MOBILE_UA = "Mozilla/5.0 (Linux; Android 13; Pixel 7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Mobile Safari/537.36"
+    private val MOBILE_UA_DEFAULT = "Mozilla/5.0 (Linux; Android 13; Pixel 7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Mobile Safari/537.36"
     private val DESKTOP_UA = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36"
+
+    private var baseUA = MOBILE_UA_DEFAULT
 
     fun setup(
         activity: MainActivity,
         onPageStarted: (String) -> Unit,
         onPageFinished: (String) -> Unit,
         onProgressChanged: (Int) -> Unit,
-        onDownloadRequested: (String, String?, String?) -> Unit
+        onDownloadRequested: (String, String?, String?) -> Unit,
+        customUserAgent: String? = null
     ) {
+        baseUA = if (!customUserAgent.isNullOrBlank()) customUserAgent else MOBILE_UA_DEFAULT
+
         settings.apply {
             javaScriptEnabled = true
             domStorageEnabled = true
@@ -39,7 +44,7 @@ class NeoWebView @JvmOverloads constructor(
             mixedContentMode = WebSettings.MIXED_CONTENT_COMPATIBILITY_MODE
             cacheMode = WebSettings.LOAD_DEFAULT
             mediaPlaybackRequiresUserGesture = false
-            userAgentString = MOBILE_UA
+            userAgentString = baseUA
         }
 
         // Enable cookies
@@ -138,7 +143,7 @@ class NeoWebView @JvmOverloads constructor(
 
     fun toggleDesktopMode() {
         isDesktopMode = !isDesktopMode
-        settings.userAgentString = if (isDesktopMode) DESKTOP_UA else MOBILE_UA
+        settings.userAgentString = if (isDesktopMode) DESKTOP_UA else baseUA
         reload()
     }
 }

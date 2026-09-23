@@ -108,26 +108,44 @@ class UserscriptManagerActivity : AppCompatActivity() {
             .setTitle(if (existingScript == null) "New Userscript" else "Edit Userscript")
             .setView(dialogView)
             .setPositiveButton("Save") { _, _ ->
-                val name = nameInput.text.toString().ifBlank { "Unnamed Script" }
-                val matches = matchesInput.text.toString()
+                val rawCode = codeInput.text.toString()
+                // Kalau kode yang ditulis/ditempel udah punya blok metadata (==UserScript==,
+                // format Tampermonkey/Greasemonkey/VIA), pakai itu sebagai sumber kebenaran —
+                // sama kayak cara VIA browser & script manager lain kerja: cukup paste script-nya.
+                val parsed = UserscriptManager.parseMetadata(rawCode)
+
+                val name = parsed?.name ?: nameInput.text.toString().ifBlank { "Unnamed Script" }
+                val description = parsed?.description ?: descInput.text.toString()
+                val matches = parsed?.matches ?: matchesInput.text.toString()
                     .split(",").map { it.trim() }.filter { it.isNotEmpty() }
                     .ifEmpty { listOf("*") }
-                
+                val runAt = parsed?.runAt ?: runAtOptions[runAtSpinner.selectedItemPosition]
+
                 if (existingScript == null) {
                     manager.addScript(Userscript(
                         name = name,
-                        description = descInput.text.toString(),
+                        namespace = parsed?.namespace ?: "",
+                        description = description,
+                        version = parsed?.version ?: "1.0",
+                        author = parsed?.author ?: "",
+                        icon = parsed?.icon ?: "",
                         matches = matches,
-                        code = codeInput.text.toString(),
-                        runAt = runAtOptions[runAtSpinner.selectedItemPosition]
+                        excludes = parsed?.excludes ?: listOf(),
+                        code = rawCode,
+                        runAt = runAt
                     ))
                 } else {
                     manager.updateScript(existingScript.copy(
                         name = name,
-                        description = descInput.text.toString(),
+                        namespace = parsed?.namespace ?: existingScript.namespace,
+                        description = description,
+                        version = parsed?.version ?: existingScript.version,
+                        author = parsed?.author ?: existingScript.author,
+                        icon = parsed?.icon ?: existingScript.icon,
                         matches = matches,
-                        code = codeInput.text.toString(),
-                        runAt = runAtOptions[runAtSpinner.selectedItemPosition]
+                        excludes = parsed?.excludes ?: existingScript.excludes,
+                        code = rawCode,
+                        runAt = runAt
                     ))
                 }
                 refreshList()
@@ -200,38 +218,11 @@ class UserscriptManagerActivity : AppCompatActivity() {
         }
     }
 
-    // --- FITUR BARU: PARSER METADATA ---
+    // --- FITUR BARU: PARSER METADATA (format Tampermonkey/Greasemonkey/VIA) ---
     private fun parseAndSaveUserscript(code: String) {
-        var scriptName = "Imported Script"
-        var scriptDesc = ""
-        val matchPattern = mutableListOf<String>()
-        var runAt = "document-end"
-
-        // Ekstrak metadata blok Greasemonkey/Tampermonkey
-        val lines = code.split("\n")
-        var inMetadata = false
-        for (line in lines) {
-            val trimmed = line.trim()
-            if (trimmed == "// ==UserScript==") inMetadata = true
-            else if (trimmed == "// ==/UserScript==") break
-            else if (inMetadata) {
-                if (trimmed.startsWith("// @name ")) scriptName = trimmed.substringAfter("// @name").trim()
-                else if (trimmed.startsWith("// @description ")) scriptDesc = trimmed.substringAfter("// @description").trim()
-                else if (trimmed.startsWith("// @match ")) matchPattern.add(trimmed.substringAfter("// @match").trim())
-                else if (trimmed.startsWith("// @run-at ")) runAt = trimmed.substringAfter("// @run-at").trim()
-            }
-        }
-        
-        // Fallback kalau gak ada tag @match
-        if (matchPattern.isEmpty()) matchPattern.add("*://*/*")
-
-        manager.addScript(Userscript(
-            name = scriptName,
-            description = scriptDesc,
-            matches = matchPattern,
-            code = code,
-            runAt = runAt
-        ))
+        val parsed = UserscriptManager.parseMetadata(code)
+            ?: Userscript(name = "Imported Script", matches = listOf("*://*/*"), code = code)
+        manager.addScript(parsed)
         refreshList()
     }
 
@@ -278,7 +269,11 @@ class ScriptAdapter(
         fun bind(script: Userscript) {
             name.text = script.name
             desc.text = script.description.ifBlank { "No description" }
-            matches.text = "Matches: ${script.matches.joinToString(", ")}"
+            val meta = buildString {
+                append("v${script.version}")
+                if (script.author.isNotBlank()) append(" • ${script.author}")
+            }
+            matches.text = "$meta — Matches: ${script.matches.joinToString(", ")}"
             toggle.isChecked = script.enabled
 
             toggle.setOnCheckedChangeListener(null)

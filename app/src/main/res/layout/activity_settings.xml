@@ -91,5 +91,43 @@
             android:layout_width="match_parent" android:layout_height="48dp"
             android:background="@color/bg_secondary" android:padding="8dp"/>
 
+        <View android:layout_width="match_parent" android:layout_height="1dp"
+            android:background="@color/bg_secondary" android:layout_marginVertical="8dp"/>
+
+        <!-- USER AGENT -->
+        <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:text="USER AGENT" android:textColor="@color/accent" android:textSize="11sp"
+            android:textStyle="bold" android:layout_marginBottom="8dp"/>
+        <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:text="Sent to every website you visit; changing it can affect how a site filters or renders content"
+            android:textColor="@color/text_secondary" android:textSize="12sp" android:layout_marginBottom="6dp"/>
+        <Spinner android:id="@+id/spinner_ua_mode"
+            android:layout_width="match_parent" android:layout_height="48dp"
+            android:background="@color/bg_secondary" android:padding="8dp" android:layout_marginBottom="8dp"/>
+        <EditText android:id="@+id/input_custom_ua"
+            android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:hint="Mozilla/5.0 (Linux; Android 13; Pixel 7) ..." android:textColor="@color/text_primary"
+            android:textColorHint="#555" android:background="@color/bg_secondary"
+            android:padding="10dp" android:inputType="text" android:maxLines="3" android:visibility="gone"/>
+        <Button android:id="@+id/btn_save_ua" android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:text="Save" android:layout_marginTop="4dp"
+            android:visibility="gone"/>
+
+        <View android:layout_width="match_parent" android:layout_height="1dp"
+            android:background="@color/bg_secondary" android:layout_marginVertical="8dp"/>
+
+        <!-- PRIVACY -->
+        <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:text="PRIVACY" android:textColor="@color/accent" android:textSize="11sp"
+            android:textStyle="bold" android:layout_marginBottom="8dp"/>
+        <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:text="Clear browsing data" android:textColor="@color/text_primary" android:textSize="14sp"/>
+        <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:text="Cookies, cache, and site storage (login sessions will be cleared)"
+            android:textColor="@color/text_secondary" android:textSize="12sp" android:layout_marginBottom="6dp"/>
+        <Button android:id="@+id/btn_clear_data" android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:text="Clear browsing data"
+            android:layout_marginBottom="24dp"/>
+
     </LinearLayout>
 </ScrollView>

@@ -161,6 +161,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupWebView() {
+        val uaMode = prefs().getString(SettingsActivity.KEY_UA_MODE, "default")
+        val customUa = if (uaMode == "custom") prefs().getString(SettingsActivity.KEY_CUSTOM_UA, null) else null
+
         webView.setup(this,
             onPageStarted    = { url -> urlBar.setText(url); progressBar.visibility = View.VISIBLE; updateNavButtons() },
             onPageFinished   = { url ->
@@ -169,7 +172,8 @@ class MainActivity : AppCompatActivity() {
                 updateTabCount(); tabManager.saveThumb(currentTabId, webView)
             },
             onProgressChanged   = { p -> progressBar.progress = p },
-            onDownloadRequested = { url, cd, mime -> handleDownload(url, cd, mime) }
+            onDownloadRequested = { url, cd, mime -> handleDownload(url, cd, mime) },
+            customUserAgent = customUa
         )
 
         // Restore last session atau buat tab baru

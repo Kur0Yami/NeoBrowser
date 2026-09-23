@@ -117,7 +117,7 @@ class TabsOverviewActivity : AppCompatActivity() {
     // Build chips: "All" + satu chip per group yang punya tab
     private fun buildGroupChips() {
         groupChipsContainer.removeAllViews()
-        addChip("All", null, activeGroupId == null, 0xFFBB86FC.toInt())
+        addChip("All", null, activeGroupId == null, Color.parseColor("#1A73E8"))
         mgr.groups.forEach { group ->
             val count = mgr.tabs.count { it.groupId == group.id }
             if (count > 0) addChip("${group.name} ($count)", group.id, activeGroupId == group.id, group.color)
@@ -130,11 +130,11 @@ class TabsOverviewActivity : AppCompatActivity() {
         tv.textSize = 12f
         tv.setPadding(28, 10, 28, 10)
         tv.setTypeface(null, if (isActive) Typeface.BOLD else Typeface.NORMAL)
-        tv.setTextColor(if (isActive) Color.WHITE else 0xFFAAAAAA.toInt())
+        tv.setTextColor(if (isActive) Color.WHITE else Color.parseColor("#5F6368"))
 
         val bg = GradientDrawable()
         bg.cornerRadius = 32f
-        bg.setColor(if (isActive) color else 0xFF2D2D2D.toInt())
+        bg.setColor(if (isActive) color else Color.parseColor("#F1F3F4"))
         tv.background = bg
 
         val lp = LinearLayout.LayoutParams(

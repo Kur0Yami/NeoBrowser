@@ -19,7 +19,7 @@ data class Tab(
 data class TabGroup(
     val id: String = UUID.randomUUID().toString(),
     var name: String,
-    var color: Int = 0xFFBB86FC.toInt()
+    var color: Int = 0xFF1A73E8.toInt()
 )
 
 class TabManager private constructor() {
@@ -95,7 +95,7 @@ class TabManager private constructor() {
 
     fun getThumb(tabId: String): Bitmap? = thumbCache.get(tabId)
 
-    fun createGroup(name: String, color: Int = 0xFFBB86FC.toInt()): TabGroup {
+    fun createGroup(name: String, color: Int = 0xFF1A73E8.toInt()): TabGroup {
         val g = TabGroup(name = name, color = color)
         groups.add(g)
         return g

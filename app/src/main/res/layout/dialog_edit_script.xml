@@ -89,7 +89,8 @@
             android:gravity="top"
             android:typeface="monospace"
             android:textSize="12sp"
-            android:background="@android:color/darker_gray"
+            android:textColor="#202124"
+            android:background="@color/bg_secondary"
             android:padding="8dp"
             android:scrollbars="vertical"/>
 
